@@ -1,36 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">  
-	<style>
-		model-viewer {
-		width: 100%; 
-		height: 100%;
-		position: absolute; /* Posiciona el model-viewer para ocupar toda la página */
-		top: 0;
-		left: 0;
-	}
-	</style>
-	   
-	<title>Modelo 3D_Piso 7 UAM-C</title>
-	</head>
-<body>
-    <!-- Insercción del modelo 3D (Codígo extraido del editor de https://modelviewer.dev/) -->
 
-    <model-viewer src="assets/Piso7.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1">
-        <div class="progress-bar hide" slot="progress-bar">
-            <div class="update-bar"></div>
-        </div>
-        <button slot="ar-button" id="ar-button">
-            <font style="vertical-align: inherit;">
-				<font style="vertical-align: inherit;">
-					Ver en tu espacio
-				</font>
-			</font>
-        </button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo 3D - Piso 7 UAM-C</title>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        model-viewer {
+            width: 100%;
+            height: 80vh;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Explora el Piso 7 de la UAM-C</h2>
+
+    <model-viewer 
+        id="modelo3D"
+        src="assets/Piso7.glb" 
+        ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        tone-mapping="neutral"
+        poster="poster.webp" 
+        shadow-intensity="1">
     </model-viewer>
 
-   <!-- Importación del componente -->
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script>
+        function irA(posicion, angulo) {
+            let modelo = document.getElementById('modelo3D');
+            modelo.setAttribute("camera-target", posicion);  // Posición de la cámara
+            modelo.setAttribute("camera-orbit", angulo);     // Ángulo de la vista
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get("view");
+
+       
+        const vistas = {
+	Cafeteria: { pos: "10m 2m -5m", ang: "0deg 20deg 2m" },
+	    CNI: { pos: "15m 3m -10m", ang: "-5deg 18deg 2.5m" },
+	    Laboratorios: { pos: "8m 2.5m -3m", ang: "-2deg 22deg 2m" },
+	    Aulas: { pos: "5m 2m 0m", ang: "-3deg 25deg 2m" },
+	    SalaPos: { pos: "12m 3m -8m", ang: "-6deg 30deg 2.5m" },
+	    Cubiculos: { pos: "7m 2m -7m", ang: "-3deg 24deg 2m" }
+        };
+
+        if (view && vistas[view]) {
+            irA(vistas[view].pos, vistas[view].ang);
+        }
+    </script>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
 </body>
-</html>
+</htm
